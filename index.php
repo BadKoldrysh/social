@@ -2,10 +2,12 @@
 
 declare(strict_types = 1);
 
-$mysqli = new mysqli("localhost", "root", "", "test_db");
-if ($err = $mysqli->connect_errno) {
+$con = new mysqli("localhost", "root", "", "test_db");
+if ($err = $con->connect_errno) {
     printf("Connection failed: %s", $err);
 }
+
+$query = mysqli_query($con, "INSERT INTO test VALUES(NULL, 'Mr Robot')");
 ?>
 
 <html>
