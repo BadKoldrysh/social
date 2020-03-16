@@ -2,12 +2,7 @@
 
 declare(strict_types = 1);
 
-session_start();
-
-$con = new mysqli("localhost", "root", "", "social");
-if ($err = $con->connect_errno) {
-    printf("Connection failed: %s", $err);
-}
+require_once(__DIR__ . '/config/config.php');
 
 // Declaring variables to prevent errors
 $fname = ""; // First name
@@ -126,7 +121,6 @@ if (isset($_POST['register_button'])) {
         session_unset();
     }
 }
-var_dump($_SESSION);
 
 ?>
 
