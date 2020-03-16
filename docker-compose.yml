@@ -1,0 +1,41 @@
+version: "3.7"
+services:
+  php:
+    build: './docker/php/'
+    container_name: 'social_net_php'
+    networks:
+      - backend
+    volumes:
+      - ./public/:/var/www/html/
+  apache:
+    build: './docker/apache/'
+    container_name: 'social_net_apache'
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - frontend
+      - backend
+    ports:
+      - "8080:80"
+    volumes:
+      - ./public/:/var/www/html/
+  mysql:
+    image: mysql:5.7
+    container_name: 'social_net_mysql'
+    networks:
+      - backend
+    environment:
+      - MYSQL_ROOT_PASSWORD=social
+      - MYSQL_DATABASE=social
+      - MYSQL_USER=devuser
+      - MYSQL_PASSWORD=devpass
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+networks:
+  frontend:
+  backend:
