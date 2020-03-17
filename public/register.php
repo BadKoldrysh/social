@@ -115,10 +115,17 @@ if (isset($_POST['register_button'])) {
             $profile_pic = "assets/images/profile_pics/default/head_emerald.png";
         }
 
-        $query = mysqli_query($con, "INSERT INTO users VALUES('', '$fname', '$lname', '$username', '$email', '$password', '$date', '$profile_pic', '0', '0', 'no', '.')");
+        $query = "INSERT INTO users" 
+                    . "(first_name, last_name, username, email, password, signup_date, profile_pic, num_posts, num_likes, user_closed, friend_array) " 
+                    . "VALUES('$fname', '$lname', '$username', '$email', '$password', '$date', '$profile_pic', '0', '0', 'no', '.')";
+        $response = mysqli_query($con, $query);
         
-        array_push($error_array, "<span style=\"color: green;\">You're all set! Goahead and login!</span><br />");
-        session_unset();
+        if (empty(mysqli_error($con)) === false) {
+            array_push($error_array, "Mysql error: check your database");
+        } else {
+            array_push($error_array, "<span style=\"color: green;\">You're all set! Goahead and login!</span><br />");
+            session_unset();
+        }
     }
 }
 
@@ -162,6 +169,7 @@ if (isset($_POST['register_button'])) {
         <br />
 
         <?php
+            if (in_array("Mysql error: check your database", $error_array)) echo "Mysql error: check your database";
             if (in_array("<span style=\"color: green;\">You're all set! Goahead and login!</span><br />", $error_array)) echo "<span style=\"color: green;\">You're all set! Goahead and login!</span><br />";
         ?>
     </form>
