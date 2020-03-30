@@ -21,6 +21,11 @@ body {
     padding: 0; 
 }
 
+a {
+    text-decoration: none;
+    color: #74b9ff;
+}
+
 .wrapper {
     background-image: url("../images/backgrounds/register-wrapper.jpg");
     background-size: 100%;
@@ -86,4 +91,8 @@ input[type="text"], input[type="email"], input[type="password"] {
 
 input[type="text"]:hover, input[type="email"]:hover, input[type="password"]:hover {
     border-color: #74b9ff;
+}
+
+#second {
+    display: none;
 }
