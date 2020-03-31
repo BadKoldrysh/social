@@ -15,6 +15,20 @@ require_once(__DIR__ . '/includes/form_handlers/login_handler.php');
     <script src="/assets/js/register.js"></script>
 </head>
 <body>
+
+    <?php
+        if (isset($_POST['register_button'])) {
+            echo '
+                <script>
+                    $(document).ready(function() {
+                        $("#first").hide();
+                        $("#second").show();
+                    });
+                </script>
+            ';
+        }
+    ?>
+
     <div class="wrapper">
         <div class="login-box">
             <div class="login-header">
@@ -32,6 +46,7 @@ require_once(__DIR__ . '/includes/form_handlers/login_handler.php');
                     <br />
                     <a href="#" id="signup" class="signup">Need an account? Register here!</a>
                 </form>
+                <br />
                 <?php
                     if (in_array("Incorrect password or email", $error_array)) echo "Incorrect password or email";
                 ?>
@@ -40,33 +55,33 @@ require_once(__DIR__ . '/includes/form_handlers/login_handler.php');
                 
                 <form action="register.php" method="post">
                     <input type="text" name="reg_fname" placeholder="First Name" value="<?= htmlspecialchars($_SESSION['reg_fname'] ?? '')?>" required />
+                    <br />
                     <?php
                         if (in_array("Your first name must be between 2 and 25 characters<br />", $error_array)) echo "Your first name must be between 2 and 25 characters<br />";
                     ?>
-                    <br />
                     <input type="text" name="reg_lname" placeholder="Last Name" value="<?= htmlspecialchars($_SESSION['reg_lname'] ?? '')?>" required />
+                    <br />
                     <?php
                         if (in_array("Your last name must be between 2 and 25 characters<br />", $error_array)) echo "Your last name must be between 2 and 25 characters<br />";
                     ?>
-                    <br />
                     <input type="email" name="reg_email" placeholder="Email" value="<?= htmlspecialchars($_SESSION['reg_email'] ?? '')?>" required />
                     <br />
                     <input type="email" name="reg_email2" placeholder="Confirm Email" value="<?= htmlspecialchars($_SESSION['reg_email2'] ?? '')?>" required />
+                    <br />
                     <?php
                         if (in_array("Email is already in use<br />", $error_array)) echo "Email is already in use<br />";
                         if (in_array("Invalid email format<br />", $error_array)) echo "Invalid email format<br />";
                         if (in_array("Emails don't match<br />", $error_array)) echo "Emails don't match<br />";
                     ?>
-                    <br />
                     <input type="password" name="reg_password" placeholder="Password" required />
                     <br />
                     <input type="password" name="reg_password2" placeholder="Confirm Password" required />
+                    <br />
                     <?php
                         if (in_array("Your password do not match<br />", $error_array)) echo "Your password do not match<br />";
                         if (in_array("Your password can only contain english letters or numbers<br />", $error_array)) echo "Your password can only contain english letters or numbers<br />";
                         if (in_array("Your password must be between 5 and 30 characters<br />", $error_array)) echo "Your password must be between 5 and 30 characters<br />";
                     ?>
-                    <br />
                     <input type="submit" name="register_button" value="Register" />
                     <br />
                     <a href="#" id="signin" class="signin">Already have an account? Sign in here!</a>
