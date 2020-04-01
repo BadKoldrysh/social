@@ -11,6 +11,10 @@ body {
     background-color: #dfe6e9;
 }
 
+textarea:focus {
+    outline: 0;
+}
+
 .top_bar {
     width: 100%;
     min-width: 1050px;
@@ -86,4 +90,46 @@ body {
     width: 125px;
     display: inline-block;
     position: absolute;
+}
+
+.main-column {
+    float: right;
+    width: 70%;
+    z-index: -1;
+    min-height: 160px;
+}
+
+.post-form {
+    width: 100%;
+}
+
+.post-form textarea {
+    width: 81%;
+    height: 60px;
+    border-radius: 4px;
+    margin-right: 5px;
+    border: 1px solid #d3d3d3;
+    font-size: 12px;
+    padding: 5px;
+}
+
+.post-form input[type="submit"] {
+    width: 11%;
+    height: 60px;
+    border: none;
+    border-radius: 3px;
+    background-color: #0984e3;
+    font-family: 'Bellota-BoldItalic', sans-serif;
+    color: #005498;
+    text-shadow: #6ca3ff 0.5px 0.5px 0px;
+    font-size: 90%;
+    position: absolute;
+    outline: 0;
+    margin: 0;
+    
+}
+
+.post-form input[type="submit"]:active {
+    padding: 5px 4px 4px 5px;
+    color: #fff;
 }
