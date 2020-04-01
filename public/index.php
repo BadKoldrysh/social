@@ -6,6 +6,10 @@ require_once(__DIR__ . '/includes/header.php');
 session_destroy();
 ?>
 
-    <h1>Hello there</h1>
+        <div class="user-details column">
+            <a href="#"> <img src="<?= $user['profile_pic'] ?>" alt=""> </a>
+        </div>
+
+    </div>
 </body>
 </html>
