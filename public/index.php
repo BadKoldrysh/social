@@ -7,11 +7,11 @@ require_once(__DIR__ . '/includes/header.php');
 ?>
 
         <div class="user-details column">
-            <a href="#"> <img src="<?= $user['profile_pic'] ?>" alt=""> </a>
+            <a href="<?= $userLoggedIn ?>"> <img src="<?= $user['profile_pic'] ?>" alt=""> </a>
 
             <div class="user-details-left-right">
 
-                <a href="#">
+                <a href="<?= $userLoggedIn ?>">
                     <?php
                         echo $user['first_name'] . " " . $user['last_name'];
                     ?>
