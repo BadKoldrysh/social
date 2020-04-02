@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 
 require_once(__DIR__ . '/includes/header.php');
+require_once(__DIR__ . '/includes/classes/User.php');
 // session_destroy();
 ?>
 
@@ -30,7 +31,13 @@ require_once(__DIR__ . '/includes/header.php');
                 <input type="submit" name="post" id="post_button" value="Post">
                 <hr />
             </form>
+            <?php
+                $user_obj = new User($con, $userLoggedIn);
+
+                echo $user_obj->getFirstAndLastName();
+            ?>
         </div>
+        
 
     </div>
 </body>
