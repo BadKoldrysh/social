@@ -11,3 +11,30 @@ CREATE TABLE users(
     user_closed VARCHAR(3),
     friend_array TEXT
 );
+
+CREATE TABLE posts(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    body TEXT,
+    added_by VARCHAR(60),
+    user_to VARCHAR(60),
+    date_added DATETIME,
+    user_closed VARCHAR(3),
+    deleted VARCHAR(3),
+    likes INT
+);
+
+CREATE TABLE post_comments(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    post_body TEXT,
+    posted_by VARCHAR(60),
+    posted_to VARCHAR(60),
+    date_added DATETIME,
+    removed VARCHAR(3),
+    post_id INT
+);
+
+CREATE TABLE likes(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(60),
+    post_id INT
+);
