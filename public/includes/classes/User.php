@@ -47,4 +47,14 @@ class User
             return false;
         }
     }
+
+    public function isFriend(string $username_to_check)
+    {
+        
+        if ((preg_match("#,($username_to_check),#", $this->user['friend_array']) || $username_to_check == $this->user['username'])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
