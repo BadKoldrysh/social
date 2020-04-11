@@ -6,8 +6,6 @@ require_once(__DIR__ . '/includes/header.php');
 require_once(__DIR__ . '/includes/classes/User.php');
 require_once(__DIR__ . '/includes/classes/Post.php');
 
-// session_destroy();
-
 if (isset($_POST['post'])) {
     $post = new Post($con, $userLoggedIn);
     $post->submitPost($_POST['post_text'], 'none');
