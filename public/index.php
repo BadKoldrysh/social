@@ -64,10 +64,9 @@ if (isset($_POST['post'])) {
                 let scroll_top = $(this).scrollTop();
                 let page = $('.posts-area').find('.nextPage').val();
                 let noMorePosts = $('.posts-area').find('.noMorePosts').val();
-                console.log("ok");
+                
                 if ((document.body.scrollHeight == document.body.scrollTop + window.innerHeight) &&
                     noMorePosts == 'false') {
-                    console.log('not ok');
                     $('#loading').show();
 
                     let ajaxReq = $.ajax({
