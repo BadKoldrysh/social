@@ -12,16 +12,22 @@ if (isset(($_GET['profile_username']))) {
     $num_friends = (substr_count($user_array['friend_array'], ",")) - 1;
 }
 ?>
+        <style>
+            .wrapper {
+                margin-left: 0px;
+                padding-left: 0px;
+            }
+        </style>
 
         <div class="profile_left">
             <img src="<?= $user_array['profile_pic'] ?>" alt="profile_pic">
+            <div class="profile_info">
+                <p>Posts: <?= $user_array['num_posts'] ?></p>
+                <p>Likes: <?= $user_array['num_likes'] ?></p>
+                <p>Friends: <?= $num_friends ?></p>
+            </div>
         </div>
 
-        <div class="profile_info">
-            <p>Posts: <?= $user_array['num_posts'] ?></p>
-            <p>Likes: <?= $user_array['num_likes'] ?></p>
-            <p>Friends: <?= $num_friends ?></p>
-        </div>
 
         <div class="column main-column">
             This is a profile page for <?= $_GET['profile_username'] ?>
