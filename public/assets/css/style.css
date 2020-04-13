@@ -16,6 +16,11 @@ a {
     color: #74b9ff;
 }
 
+a:hover {
+    text-decoration: none;
+    color: #0984e3;
+}
+
 textarea:focus {
     outline: 0;
 }
@@ -201,4 +206,33 @@ textarea:focus {
     text-decoration: none;
     color: #0984e3;
     border: none;
+}
+
+.newsfeedPostOptions iframe {
+    height: 17px;
+    width: 120px;
+    border: 0;
+}
+
+.comment_like {
+    border: 0;
+    background-color: #fff;
+    font-size: 14px;
+    padding: 0px;
+    color: #74b9ff;
+    cursor: pointer;
+}
+
+.comment_like:focus {
+    outline: 0;
+}
+
+.comment_like:hover {
+    color: #0984e3;
+}
+
+.like_value {
+    display: inline;
+    font-size: 14px;
+    color: #000;
 }
