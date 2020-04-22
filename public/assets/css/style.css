@@ -268,3 +268,31 @@ textarea:focus {
     margin: 0px 0 0px 20px;
     word-wrap: break-word;
 }
+
+.danger {
+    background-color: #e74c3c;
+}
+.warning {
+    background-color: #f0ad4e;
+}
+.default {
+    background-color: #bdc3c7;
+}
+.success {
+    background-color: #2ecc71;
+}
+.info {
+    background-color: #3498db;
+}
+.deep_blue {
+    background-color: #0043f0;
+}
+
+.profile_left input[type="submit"] {
+    margin: 7px 0 0 7px;
+    border-radius: 5px;
+    height: 30px;
+    border: none;
+    width: 90%;
+    color: #fff;
+}
