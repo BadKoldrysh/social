@@ -3,6 +3,9 @@
 declare(strict_types = 1);
 
 require_once(__DIR__ . '/includes/header.php');
+require_once(__DIR__ . '/includes/header.php');
+require_once(__DIR__ . '/includes/classes/User.php');
+require_once(__DIR__ . '/includes/classes/Post.php');
 
 if (isset(($_GET['profile_username']))) {
     $username = $_GET['profile_username'];
@@ -26,7 +29,31 @@ if (isset(($_GET['profile_username']))) {
                 <p>Likes: <?= $user_array['num_likes'] ?></p>
                 <p>Friends: <?= $num_friends ?></p>
             </div>
+            <form action="<?= $username ?>">
+                <?php
+                    $profile_user_obj = new User($con, $username);
+    
+                    if ($profile_user_obj->isClosed()) {
+                        header('Location: user_closed.php');
+                    }
+    
+                    $logged_in_user_obj = new User($con, $userLoggedIn);
+                    
+                    if ($userLoggedIn !== $username) {
+                        if ($logged_in_user_obj->isFriend($username)) {
+                            echo '<input type="submit" name="remove_friend" class="danger" value="Remove friend"><br />';
+                        } elseif ($logged_in_user_obj->didReceiveRequest($username)) {
+                            echo '<input type="submit" name="respond_request" class="warning" value="Respond to Request"><br />';
+                        } elseif ($logged_in_user_obj->didSendRequest($username)) {
+                            echo '<input type="submit" name="" class="default" value="Request Sent"><br />';
+                        } else {
+                            echo '<input type="submit" name="add_friend" class="success" value="Add Friend"><br />';
+                        }
+                    }
+                ?>
+            </form>
         </div>
+
 
 
         <div class="column main-column">

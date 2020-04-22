@@ -48,7 +48,7 @@ class User
         }
     }
 
-    public function isFriend(string $username_to_check)
+    public function isFriend(string $username_to_check): bool
     {
         
         if ((preg_match("#,($username_to_check),#", $this->user['friend_array']) || $username_to_check == $this->user['username'])) {
@@ -64,5 +64,29 @@ class User
         $query = mysqli_query($this->con, "SELECT profile_pic FROM users WHERE username='$username'");
         $row = mysqli_fetch_array($query);
         return $row['profile_pic'];
+    }
+
+    public function didReceiveRequest(string $user_to)
+    {
+        $user_from = $this->user['username'];
+        $check_request_query = mysqli_query($this->con, "SELECT * FROM friend_requests WHERE user_to='$user_to' AND user_from='$user_from'");
+        
+        if (mysqli_num_rows($check_request_query) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function didSendRequest(string $user_from)
+    {
+        $user_to = $this->user['username'];
+        $check_request_query = mysqli_query($this->con, "SELECT * FROM friend_requests WHERE user_to='$user_to' AND user_from='$user_from'");
+        
+        if (mysqli_num_rows($check_request_query) > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -38,3 +38,9 @@ CREATE TABLE likes(
     username VARCHAR(60),
     post_id INT
 );
+
+CREATE TABLE friend_requests(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_to VARCHAR(60),
+    user_from VARCHAR(60)
+);
