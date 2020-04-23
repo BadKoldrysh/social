@@ -9,7 +9,7 @@ require_once(__DIR__ . '/includes/form_handlers/login_handler.php');
 
 <html>
 <head>
-    <title>Welcome to the society!</title>  
+    <title>Welcome to the society!</title>
     <link rel="stylesheet" type="text/css" href="/assets/css/register_style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="/assets/js/register.js"></script>
@@ -52,7 +52,7 @@ require_once(__DIR__ . '/includes/form_handlers/login_handler.php');
                 ?>
             </div>
             <div id="second">
-                
+
                 <form action="register.php" method="post">
                     <input type="text" name="reg_fname" placeholder="First Name" value="<?= htmlspecialchars($_SESSION['reg_fname'] ?? '')?>" required />
                     <br />
@@ -85,7 +85,7 @@ require_once(__DIR__ . '/includes/form_handlers/login_handler.php');
                     <input type="submit" name="register_button" value="Register" />
                     <br />
                     <a href="#" id="signin" class="signin">Already have an account? Sign in here!</a>
-                
+
                     <?php
                         if (in_array("Mysql error: check your database", $error_array)) echo "Mysql error: check your database";
                         if (in_array("<span style=\"color: green;\">You're all set! Goahead and login!</span><br />", $error_array)) echo "<span style=\"color: green;\">You're all set! Goahead and login!</span><br />";

@@ -25,13 +25,13 @@ if (isset($_POST['register_button'])) {
     $lname = str_replace(' ', '', $lname); // remove spaces
     $lname = ucfirst(strtolower($lname)); // uppercase first letter
     $_SESSION['reg_lname'] = $lname; // stores last name into session variable
-    
+
     // Email
     $email = strip_tags($_POST['reg_email'] ?? ''); // remove html tags
     $email = str_replace(' ', '', $email); // remove spaces
     $email = strtolower($email); // uppercase first letter
     $_SESSION['reg_email'] = $email; // stores last name into session variable
-    
+
     // Email 2
     $email2 = strip_tags($_POST['reg_email2'] ?? ''); // remove html tags
     $email2 = str_replace(' ', '', $email2); // remove spaces
@@ -113,11 +113,11 @@ if (isset($_POST['register_button'])) {
             $profile_pic = "assets/images/profile_pics/default/head_emerald.png";
         }
 
-        $query = "INSERT INTO users" 
-                    . "(first_name, last_name, username, email, password, signup_date, profile_pic, num_posts, num_likes, user_closed, friend_array) " 
-                    . "VALUES('$fname', '$lname', '$username', '$email', '$password', '$date', '$profile_pic', '0', '0', 'no', '.')";
+        $query = "INSERT INTO users"
+                    . "(first_name, last_name, username, email, password, signup_date, profile_pic, num_posts, num_likes, user_closed, friend_array) "
+                    . "VALUES('$fname', '$lname', '$username', '$email', '$password', '$date', '$profile_pic', '0', '0', 'no', ',')";
         $response = mysqli_query($con, $query);
-        
+
         if (empty(mysqli_error($con)) === false) {
             array_push($error_array, "Mysql error: check your database");
         } else {
