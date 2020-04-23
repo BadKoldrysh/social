@@ -12,7 +12,7 @@ class Post
     public function __construct($con, $user)
     {
         $this->con = $con;
-        $this->user_obj = new User($con, $user); 
+        $this->user_obj = new User($con, $user);
     }
 
     public function submitPost($body, $user_to)
@@ -30,16 +30,16 @@ class Post
             $date_added = date("Y-m-d H:i:s");
             // get username
             $added_by = $this->user_obj->getUsername();
-            
+
             // if user is on own profile, user_to is 'none'
             if ($user_to === $added_by) {
                 $user_to = 'none';
             }
-            
+
             // insert post
             $query = mysqli_query($this->con, "INSERT INTO posts(body, added_by, user_to, date_added, user_closed, deleted, likes) VALUES('$body', '$added_by', '$user_to', '$date_added', 'no', 'no', '0')");
             $returned_id = mysqli_insert_id($this->con);
-            
+
             // insert notification
 
             // update post count for user
@@ -53,7 +53,7 @@ class Post
     {
         $page = $data['page'];
         $userLoggedIn = $this->user_obj->getUsername();
-        
+
         if ($page == 1) {
             $start = 0;
         } else {
@@ -72,7 +72,7 @@ class Post
                 $body = $row['body'];
                 $added_by = $row['added_by'];
                 $date_time = $row['date_added'];
-    
+
                 // prepare user_to string so it can be included even if not posted to a user
                 if ($row['user_to'] === 'none') {
                     $user_to = "";
@@ -81,33 +81,39 @@ class Post
                     $user_to_name = $user_to_obj->getFirstAndLastName();
                     $user_to = "to <a href='" . $row['user_to'] . "'>" . $user_to_name . "</a>";
                 }
-    
+
                 // check if user who posted, has their accound closed
                 $added_by_obj = new User($this->con, $added_by);
                 if ($added_by_obj->isClosed()) {
                     continue;
                 }
-    
+
                 $user_logged_obj = new User($this->con, $userLoggedIn);
                 if ($user_logged_obj->isFriend($added_by)) {
                     if ($num_iterations++ < $start) {
                         continue;
                     }
-    
+
                     // once 10 posts have been loaded, break
-    
+
                     if ($count > $limit) {
                         break;
                     } else {
                         $count++;
                     }
-    
+
+                    if ($userLoggedIn == $added_by) {
+                        $delete_button = '<button class="delete_button btn-danger" id="post' . $id . '">X</button>';
+                    } else {
+                        $delete_button = '';
+                    }
+
                     $user_details_query = mysqli_query($this->con, "SELECT first_name, last_name, profile_pic FROM users WHERE username='$added_by'");
                     $user_row = mysqli_fetch_array($user_details_query);
                     $first_name = $user_row['first_name'];
                     $last_name = $user_row['last_name'];
                     $profile_pic = $user_row['profile_pic'];
-        
+
                     ?>
                     <script>
                         function toggle<?= $id ?>() {
@@ -126,19 +132,20 @@ class Post
 
                     <?php
 
-                    $comments_check = mysqli_query($this->con, "SELECT * FROM post_comments WHERE post_id='$id'");    
+                    $comments_check = mysqli_query($this->con, "SELECT * FROM post_comments WHERE post_id='$id'");
                     $comments_check_num = mysqli_num_rows($comments_check);
 
                     // timeframe
                     $time_message = Helper::getIntervalFromDate($date_time);
-        
+
                     $str .= "<div class='status-post' onclick='javascript:toggle$id()'>
                                 <div class='post-profile-pic'>
                                     <img src='$profile_pic' width='50'>
                                 </div>
-        
+
                                 <div class='posted-by' style='color: #acacac;'>
-                                    <a href='$added_by'> $first_name $last_name </a> $user_to &nbsp;&nbsp;&nbsp;&nbsp;$time_message 
+                                    <a href='$added_by'> $first_name $last_name </a> $user_to &nbsp;&nbsp;&nbsp;&nbsp;$time_message
+                                    $delete_button
                                 </div>
                                 <div class='post-body'>
                                     $body
@@ -157,13 +164,30 @@ class Post
                             <hr />
                     ";
                 }
+                ?>
+            <script>
+
+                $(document).ready(function() {
+                    $('#post<?= $id ?>').on('click', function() {
+                        console.log("ok");
+                        bootbox.confirm("Are you sure you want to delete this post?", function(result) {
+                            $.post("includes/form_handlers/delete_post.php?post_id=<?= $id ?>", {result: result});
+
+                            if (result == true) {
+                                location.reload();
+                            }
+                        })
+                    });
+                });
+            </script>
+            <?php
             } // end while loop
 
             if ($count > $limit) {
                 $str .= '<input type="hidden" class="nextPage" value="' . ($page + 1) . '">' .
                             '<input type="hidden" class="noMorePosts" value="false">';
             } else {
-                $str .= '<input type="hidden" class="noMorePosts" value="true">' . 
+                $str .= '<input type="hidden" class="noMorePosts" value="true">' .
                             '<p style="text-align: center;"> No more posts to show </p>';
             }
         }
