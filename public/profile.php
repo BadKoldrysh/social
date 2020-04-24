@@ -70,42 +70,95 @@ if (isset($_POST['respond_request'])) {
 
 
 
-        <div class="column main-column">
-            This is a profile page for <?= $_GET['profile_username'] ?>
+        <div class="column profile-main-column">
+            <div class="posts-area"></div>
+            <img id="loading" src="assets/images/icons/loading.gif" alt="loading">
         </div>
 
 
 
-<!-- Modal -->
-<div class="modal fade" id="post-modal" tabindex="-1" role="dialog" aria-labelledby="postModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Post something</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-      <div class="modal-body">
-        <p>This will appear on users profile page and also their newsfeed for your friends to see!</p>
-
-        <form action="" class="profile_post" method="POST">
-            <div class="form-group">
-                <textarea name="post_body" class="form-control"></textarea>
-                <input type="hidden" name="user_from" value="<?= $userLoggedIn ?>">
-                <input type="hidden" name="user_to" value="<?= $username ?>">
+        <!-- Modal -->
+        <div class="modal fade" id="post-modal" tabindex="-1" role="dialog" aria-labelledby="postModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Post something</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-        </form>
-      </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" name="post_button" id="submit_profile_post">Post</button>
-      </div>
-    </div>
-  </div>
-</div>
+            <div class="modal-body">
+                <p>This will appear on users profile page and also their newsfeed for your friends to see!</p>
+
+                <form action="" class="profile_post" method="POST">
+                    <div class="form-group">
+                        <textarea name="post_body" class="form-control"></textarea>
+                        <input type="hidden" name="user_from" value="<?= $userLoggedIn ?>">
+                        <input type="hidden" name="user_to" value="<?= $username ?>">
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" name="post_button" id="submit_profile_post">Post</button>
+            </div>
+            </div>
+        </div>
+        </div>
+
+        <script>
+            let userLoggedIn = '<?= $userLoggedIn ?>';
+            let profileUsername = '<?= $username ?>';
+
+            $(document).ready(function() {
+                $("#loading").show();
+
+                // original ajax request for loading first posts
+                $.ajax({
+                    url: "/includes/handlers/ajax_load_profile_posts.php",
+                    type: "POST",
+                    data: "page=1&userLoggedIn=" + userLoggedIn + "&profileUsername=" + profileUsername,
+                    cache: false,
+
+                    success: function(data) {
+                        $('#loading').hide();
+                        $('.posts-area').html(data);
+                    }
+                });
+            });
+
+            $(window).scroll(function() {
+                let height = $(".posts-area").height(); // div containing posts
+                let scroll_top = $(this).scrollTop();
+                let page = $('.posts-area').find('.nextPage').val();
+                let noMorePosts = $('.posts-area').find('.noMorePosts').val();
+
+                if ((document.body.scrollHeight == document.body.scrollTop + window.innerHeight) &&
+                    noMorePosts == 'false') {
+                    $('#loading').show();
+
+                    let ajaxReq = $.ajax({
+                        url: "/includes/handlers/ajax_load_profile_posts.php",
+                        type: "POST",
+                        data: "page=" + page + "&userLoggedIn=" + userLoggedIn + "&profileUsername=" + profileUsername,
+                        cache: false,
+
+                        success: function(response) {
+                            $('.posts-area').find('.nextPage').remove(); // remove current .nextPage
+                            $('.posts-area').find('.noMorePosts').remove(); // remove current .noMorePosts
+
+                            $('#loading').hide();
+                            $('.posts-area').append(response);
+                        }
+                    });
+                } // end if
+
+                return false;
+            }); // end $(window).scroll()
+        </script>
+
     </div>
 </body>
 </html>
