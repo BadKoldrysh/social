@@ -169,7 +169,6 @@ class Post
 
                 $(document).ready(function() {
                     $('#post<?= $id ?>').on('click', function() {
-                        console.log("ok");
                         bootbox.confirm("Are you sure you want to delete this post?", function(result) {
                             $.post("includes/form_handlers/delete_post.php?post_id=<?= $id ?>", {result: result});
 
