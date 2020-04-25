@@ -66,6 +66,14 @@ if (isset($_POST['respond_request'])) {
                 ?>
             </form>
             <input type="button" class='deep_blue' data-toggle="modal" data-target="#post-modal" value="Post something">
+
+            <?php
+                if ($userLoggedIn != $username) {
+                    echo '<div class="profile_info_bottom">';
+                    echo $logged_in_user_obj->getMutualFriends($username) . " Mutual Friends";
+                    echo '</div>';
+                }
+            ?>
         </div>
 
 

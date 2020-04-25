@@ -105,15 +105,39 @@ class User
         $remove_friend = mysqli_query($this->con, "UPDATE users SET friend_array='$new_friend_array' WHERE username='$user_to_remove'");
     }
 
-    public function sendRequest(string $user_to) {
+    public function sendRequest(string $user_to)
+    {
         $user_from = $this->user['username'];
         $query = mysqli_query($this->con, "INSERT INTO friend_requests(user_from, user_to) VALUES('$user_from', '$user_to')");
     }
 
-    public function getFriendArray() {
+    public function getFriendArray()
+    {
         $username = $this->user['username'];
         $query = mysqli_query($this->con, "SELECT friend_array FROM users WHERE username='$username'");
         $row = mysqli_fetch_array($query);
         return $row['friend_array'];
+    }
+
+    public function getMutualFriends($user_to_check)
+    {
+        $mutualFriends = 0;
+        $user_array = $this->user['friend_array'];
+        $user_array_explode = explode(",", $user_array);
+
+        $query = mysqli_query($this->con, "SELECT friend_array FROM users WHERE username='$user_to_check'");
+        $row = mysqli_fetch_array($query);
+        $user_to_check_array = $row['friend_array'];
+        $user_to_check_array_explode = explode(",", $user_to_check_array);
+
+        foreach($user_array_explode as $i) {
+            foreach($user_to_check_array_explode as $j) {
+                if ($i == $j && $i !== '') {
+                    $mutualFriends++;
+                }
+            }
+        }
+
+        return $mutualFriends;
     }
 }
