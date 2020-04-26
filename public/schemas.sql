@@ -44,3 +44,14 @@ CREATE TABLE friend_requests(
     user_to VARCHAR(60),
     user_from VARCHAR(60)
 );
+
+CREATE TABLE messages(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_to VARCHAR(60),
+    user_from VARCHAR(60),
+    body TEXT,
+    date DATETIME,
+    opened VARCHAR(3),
+    viewed VARCHAR(3),
+    deleted VARCHAR(3)
+);
