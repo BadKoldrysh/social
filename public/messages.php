@@ -23,6 +23,13 @@ if ($user_to != 'new') {
     $user_to_obj = new User($con, $user_to);
 }
 
+if (isset($_POST['post_message'])) {
+    if (isset($_POST['message_body'])) {
+        $body = mysqli_real_escape_string($con, $_POST['message_body']);
+        $date = date("Y-m-d H:i:s");
+        $message_obj->sendMessage($user_to, $body, $date);
+    }
+}
 ?>
 
 <div class="user-details column">
@@ -47,6 +54,31 @@ if ($user_to != 'new') {
     <?php
     if ($user_to != 'new') {
         echo "<h4>You and <a href='$user_to'>" . $user_to_obj->getFirstAndLastName() . "</a></h4><hr /><br />";
+        echo '<div class="loaded_messages" id="scroll_messages">';
+        echo $message_obj->getMessages($user_to);
+        echo '</div>';
+    } else {
+        echo "<h4>New message</h4>";
     }
     ?>
+
+    <div class="message_post">
+        <form action="" method="post" name="post_message">
+            <?php
+            if ($user_to == 'new') {
+                echo "Select the friend you would like to message<br /><br />";
+                echo "To: <input type='text'>";
+                echo "<div class='results'></div>";
+            } else {
+                echo "<textarea name='message_body' id='message_textarea' placeholder='Write your message ...'></textarea>";
+                echo "<input type='submit' name='post_message' class='info' id='message_submit' value='Send'>";
+            }
+            ?>
+        </form>
+    </div>
+
+    <script>
+        const div = document.getElementById("scroll_messages");
+        div.scrollTop = div.scrollHeight;
+    </script>
 </div>
