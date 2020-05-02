@@ -28,6 +28,7 @@ if (isset($_POST['post_message'])) {
         $body = mysqli_real_escape_string($con, $_POST['message_body']);
         $date = date("Y-m-d H:i:s");
         $message_obj->sendMessage($user_to, $body, $date);
+        header('Location: ' . $_SERVER['PHP_SELF']);
     }
 }
 ?>
@@ -40,13 +41,13 @@ if (isset($_POST['post_message'])) {
         <a href="<?= $userLoggedIn ?>">
             <?php
                 echo $user['first_name'] . " " . $user['last_name'];
-            ?>
+                ?>
         </a>
         <br />
         <?php
             echo "Posts: " . $user['num_posts'] . "<br />";
             echo "Likes: " . $user['num_likes'];
-        ?>
+            ?>
     </div>
 </div>
 
@@ -82,12 +83,14 @@ if (isset($_POST['post_message'])) {
         div.scrollTop = div.scrollHeight;
     </script>
 
-    <div class="user_details column" id="conversations">
+</div>
+    <div class="user-details column" id="conversations">
             <h4>Conversations</h4>
             <div class="loaded_conversations">
+                <?php
+                ?>
                 <?= $message_obj->getConvos(); ?>
             </div>
             <br />
             <a href="messages.php?u=new">New Message</a>
     </div>
-</div>
