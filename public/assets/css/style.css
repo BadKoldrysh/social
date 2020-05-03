@@ -431,3 +431,35 @@ textarea:focus {
 .timestamp_smaller {
     font-size: 10px;
 }
+
+.resultDisplay {
+    padding: 5px 5px 0 5px;
+    height: 60px;
+    border-bottom: 1px solid #d3d3d3;
+}
+
+.resultDisplay a {
+    float: none;
+}
+
+.resultDisplay:hover {
+    background-color: #bebebe;
+}
+
+.liveSearchProfilePic img {
+    height: 50px;
+    border-radius: 5px;
+    margin: 1px 12px 0px 2px;
+    float: left;
+}
+
+.liveSearchText {
+    background-color: transparent;
+    color: #0984e3;
+    line-height: 19px;
+}
+
+.liveSearchText p {
+    margin-left: 10px;
+    font-size: 12px;
+}
