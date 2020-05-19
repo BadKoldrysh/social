@@ -21,3 +21,32 @@ function getUsers(value, user) {
         $(".results").html(data);
     });
 }
+
+function getDropdownData(username, type) {
+    if ($(".dropdown_data_window").css('height') == "0px") {
+        let pageName;
+
+        if (type == 'notification') {
+
+        } else if (type == 'message') {
+            pageName = "ajax_load_messages.php";
+            $("span").remove("#unread_messages");
+        }
+
+        let ajaxreq = $.ajax({
+            url: "includes/handlers/" + pageName,
+            type: "POST",
+            data: "page=1&userLoggedIn=" + username,
+            cache: false,
+
+            success: function(response) {
+                $(".dropdown_data_window").html(response);
+                $(".dropdown_data_window").css({"padding": "0px", "height": "280px"});
+                $("#dropdown_data_type").val(type);
+            }
+        });
+    } else {
+        $(".dropdown_data_window").html("");
+        $(".dropdown_data_window").css({"padding": "0px", "height": "0px"});
+    }
+}
