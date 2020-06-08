@@ -67,9 +67,47 @@ if (isset($_SESSION['username'])) {
             </a>
         </nav>
 
-        <div class="dropdown_data_window"></div>
+        <div class="dropdown_data_window" style="height: 0px; border: none;"></div>
         <input type="hidden" id="dropdown_data_type" value="">
     </div>
+    <script>
+        let userLoggedIn = '<?= $userLoggedIn ?>';
+
+        $(".dropdown_data_window").scroll(function() {
+            let inner_height = $(".dropdown_data_window").innerHeight(); // div containing posts
+            let scroll_top = $(".dropdown_data_window").scrollTop();
+            let page = $(".dropdown_data_window").find('.nextPageDropdownData').val();
+            let noMoreData = $(".dropdown_data_window").find('.noMoreDropdownData').val();
+
+            if ((scroll_top + inner_height >= $(".dropdown_data_window")[0].scrollHeight) &&
+                noMoreData == 'false') {
+                let pageName;
+                let type = $('#dropdown_data_type').val();
+
+                if (type == 'notification') {
+                    pageName = 'ajax_load_notifications.php';
+                } else if (type == 'message') {
+                    pageName = 'ajax_load_messages.php';
+                }
+
+                let ajaxReq = $.ajax({
+                    url: "/includes/handlers/" + pageName,
+                    type: "POST",
+                    data: "page=" + page + "&userLoggedIn=" + userLoggedIn,
+                    cache: false,
+
+                    success: function(response) {
+                        $('.dropdown_data_window').find('.nextPageDropdownData').remove(); // remove current .nextPage
+                        $('.dropdown_data_window').find('.noMoreDropdownData').remove(); // remove current .noMorePosts
+
+                        $('.dropdown_data_window').append(response);
+                    }
+                });
+            } // end if
+
+            return false;
+        }); // end $(window).scroll()
+    </script>
 
     <div class="wrapper">
 

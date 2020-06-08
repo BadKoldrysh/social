@@ -6,7 +6,7 @@ require_once(__DIR__ . "/../../config/config.php");
 require_once(__DIR__ . "/../classes/User.php");
 require_once(__DIR__ . "/../classes/Message.php");
 
-$limit = 7;
+$limit = 6;
 
 $message = new Message($con, $_REQUEST['userLoggedIn']);
 // echo "<div>Gekko</div>";

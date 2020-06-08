@@ -125,7 +125,7 @@ class Message
 
     public function getConvosDropdown($data, $limit)
     {
-        $page = $data['page'];
+        $page = (int)$data['page'];
         $userLoggedIn = $this->user_obj->getUsername();
         $return_string = "";
         $convos = [];
@@ -187,7 +187,7 @@ class Message
 
         // if posts were loaded
         if ($count > $limit) {
-            $return_string .= "<input type='hidden' class='nextPageDropDownData' value='${$page + 1}'><input type='hidden' class='noMoreDropdownData' value='false'>";
+            $return_string .= "<input type='hidden' class='nextPageDropdownData' value='" . ($page + 1) . "'><input type='hidden' class='noMoreDropdownData' value='false'>";
         } else {
             $return_string .= "<input type='hidden' class='noMoreDropdownData' value='true'><p style='text-align: center;'>No more messages to load!</p>";
         }

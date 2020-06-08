@@ -175,7 +175,7 @@ SCR;
         </div>
 
         <script>
-            let userLoggedIn = '<?= $userLoggedIn ?>';
+            // let userLoggedIn = '<?= $userLoggedIn ?>';
             let profileUsername = '<?= $username ?>';
 
             $(document).ready(function() {
