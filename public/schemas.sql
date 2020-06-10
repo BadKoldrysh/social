@@ -55,3 +55,14 @@ CREATE TABLE messages(
     viewed VARCHAR(3),
     deleted VARCHAR(3)
 );
+
+CREATE TABLE notifications(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_to VARCHAR(60),
+    user_from VARCHAR(60),
+    message TEXT,
+    link VARCHAR(100),
+    datetime DATETIME,
+    opened VARCHAR(3),
+    viewed VARCHAR(3)
+);

@@ -2,8 +2,10 @@
 
 declare(strict_types = 1);
 
-require_once(__DIR__ . '/classes/Message.php');
 require_once(__DIR__ . '/classes/User.php');
+require_once(__DIR__ . '/classes/Post.php');
+require_once(__DIR__ . '/classes/Message.php');
+require_once(__DIR__ . '/classes/Notification.php');
 require_once(__DIR__ . '/../config/config.php');
 
 if (isset($_SESSION['username'])) {
@@ -49,6 +51,11 @@ if (isset($_SESSION['username'])) {
                 $messages = new Message($con, $userLoggedIn);
 
                 $num_messages = $messages->getUnreadNumber();
+
+                // Unread notifications
+                $notifications = new Notification($con, $userLoggedIn);
+
+                $num_notifications = $notifications->getUnreadNumber();
             ?>
 
             <a href="<?= $userLoggedIn?>">
@@ -65,10 +72,15 @@ if (isset($_SESSION['username'])) {
                     if ($num_messages > 0) {
                         echo '<span class="notification_badge" id="unread_message">' . $num_messages . '</span>';
                     }
-                ?>
+                    ?>
             </a>
-            <a href="#">
+            <a href="javascript:void(0);" onclick="getDropdownData('<?= $userLoggedIn ?>', 'notification')">
                 <i class="fa fa-bell-o fa-lg"></i>
+                <?php
+                    if ($num_notifications > 0) {
+                        echo '<span class="notification_badge" id="unread_notifications">' . $num_notifications . '</span>';
+                    }
+                ?>
             </a>
             <a href="#">
                 <i class="fa fa-users fa-lg"></i>

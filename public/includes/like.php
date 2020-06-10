@@ -5,6 +5,7 @@ require_once(__DIR__ . '/../config/config.php');
 require_once(__DIR__ . '/classes/User.php');
 require_once(__DIR__ . '/classes/Post.php');
 require_once(__DIR__ . '/classes/Helper.php');
+require_once(__DIR__ . '/classes/Notification.php');
 ?>
 <html>
 <head>
@@ -34,7 +35,7 @@ require_once(__DIR__ . '/classes/Helper.php');
     <?php
 
     if (isset($_SESSION['username'])) {
-        $userLoggedIn = $_SESSION['username']; 
+        $userLoggedIn = $_SESSION['username'];
         $user_details_query = mysqli_query($con, "SELECT * FROM users WHERE username='$userLoggedIn'");
         $user = mysqli_fetch_array($user_details_query);
     } else {
@@ -55,7 +56,7 @@ require_once(__DIR__ . '/classes/Helper.php');
     $row = mysqli_fetch_array($user_details_query);
     $total_user_likes = $row['num_likes'];
 
-    // Like button 
+    // Like button
     if (isset($_POST['like_button'])) {
         $total_likes++;
         $total_user_likes++;
@@ -64,6 +65,10 @@ require_once(__DIR__ . '/classes/Helper.php');
         $insert_user = mysqli_query($con, "INSERT INTO likes(username, post_id) VALUES ('$userLoggedIn', '$post_id')");
 
         // insert notification
+        if ($user_liked != $userLoggedIn) {
+            $notification = new Notification($con, $userLoggedIn);
+            $notification->insertNotification($post_id, $user_liked, "like");
+        }
     }
     // Unlike button
     if (isset($_POST['unlike_button'])) {

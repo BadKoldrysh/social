@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 
 require_once(__DIR__ . '/Helper.php');
+require_once(__DIR__ . '/Notification.php');
 
 class Post
 {
@@ -36,11 +37,16 @@ class Post
                 $user_to = 'none';
             }
 
+
             // insert post
             $query = mysqli_query($this->con, "INSERT INTO posts(body, added_by, user_to, date_added, user_closed, deleted, likes) VALUES('$body', '$added_by', '$user_to', '$date_added', 'no', 'no', '0')");
             $returned_id = mysqli_insert_id($this->con);
 
             // insert notification
+            if ($user_to != 'none') {
+                $notification = new Notification($this->con, $added_by);
+                $notification->insertNotification($returned_id, $user_to, 'profile');
+            }
 
             // update post count for user
             $num_posts = $this->user_obj->getNumPosts();
