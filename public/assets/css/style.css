@@ -478,3 +478,19 @@ textarea:focus {
     top: 40px;
     overflow-y: scroll;
 }
+
+.notification_badge {
+    line-height: 1;
+    font-size: 12px;
+    padding: 3px 7px;
+    font-weight: 700;
+    text-align: center;
+    white-space: nowrap;
+    color: #fff;
+    vertical-align: baseline;
+    background-color: #F00;
+    border-radius: 10px;
+    position: absolute;
+    left: 8px;
+    top: -5px;
+}
